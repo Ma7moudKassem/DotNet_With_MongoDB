@@ -1,4 +1,6 @@
-﻿namespace DotNet_With_MongoDB;
+﻿using MongoDB.Driver;
+
+namespace DotNet_With_MongoDB;
 
 public class MongoDBServices
 {
@@ -10,5 +12,14 @@ public class MongoDBServices
         _employeeCollection = database.GetCollection<Employee>(mongoDBSettings.Value.CollectionName);
     }
 
+    public async Task<List<Employee>> GetAsync() =>
+        await _employeeCollection.Find(new BsonDocument()).ToListAsync();
+    public async Task AddAsync(Employee employee) =>
+         await _employeeCollection.InsertOneAsync(employee);
+    //public async Task UpdateAsync(Employee employee)=> await _employeeCollection.FindOneAndUpdate(employee.Id , employee);
 
+    //public Task DeleteAsync(string id)
+    //{
+    //    throw new NotImplementedException();
+    //}
 }
